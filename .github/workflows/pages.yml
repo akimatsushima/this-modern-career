@@ -29,7 +29,8 @@ jobs:
           npm run build
 
       - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v1
+        # use the latest non-deprecated tag
+        uses: actions/upload-pages-artifact@v4
         with:
           path: webapp/dist
 
@@ -38,4 +39,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        # use current deploy-pages major release
+        uses: actions/deploy-pages@v4
