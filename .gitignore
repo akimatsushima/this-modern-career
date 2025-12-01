@@ -1,0 +1,15 @@
+# Ignore local OS files
+.DS_Store
+
+# Ignore build and dependencies for root and webapp
+/node_modules/
+/dist/
+
+# Webapp-specific
+/webapp/node_modules/
+/webapp/dist/
+/webapp/public/.DS_Store
+
+# Editor directories
+.vscode/
+*.log
