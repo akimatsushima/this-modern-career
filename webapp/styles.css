@@ -1,0 +1,247 @@
+/* --- FONT SETUP --- */
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('/fonts/PPMori-Regular.otf') format('opentype'),
+       url('/fonts/PPMori-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PP Mori';
+  src: url('/fonts/PPMori-SemiBold.otf') format('opentype'),
+       url('/fonts/PPMori-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'PP Mori', sans-serif;
+}
+
+/* --- SIMULATION STYLES --- */
+.sediment-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center; 
+    padding: 12px 20px 12px 190px; /* unified top/bottom padding for vertical centering */
+    box-sizing: border-box;
+    position: relative;
+    transform-origin: top center;
+    gap: 0; /* remove extra gap; rely on layer padding symmetry */
+}
+
+.layer {
+    width: 100%;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    padding: 24px 24px 24px 16px; /* symmetric vertical padding centers dots between borders */
+    transition: all 0.5s ease;
+    flex-grow: 0;
+    flex-shrink: 0; 
+}
+
+.layer-label {
+    position: absolute;
+    left: -180px;
+    top: 50%;
+    transform: translateY(-50%); /* cleaner vertical centering */
+    text-align: right;
+    width: 170px;
+    font-size: 0.8rem; 
+    color: #64748b;
+    font-family: monospace;
+    pointer-events: none;
+    line-height: 1.4;
+    flex-basis: 100%; /* Force label to take full width on mobile */
+}
+
+.slot {
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    flex-shrink: 0;
+    margin: 0.25px;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes flash-red {
+    0% { background-color: #ef4444; opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    60% { background-color: #ef4444; opacity: 0.8; transform: scale(1.1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    100% { background-color: transparent; opacity: 0.4; transform: scale(0.9); box-shadow: none; }
+}
+
+@keyframes flash-white {
+    0% { background-color: #ffffff; opacity: 0; transform: scale(0.5); box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
+    50% { background-color: #ffffff; opacity: 0.9; transform: scale(1.2); box-shadow: 0 0 12px rgba(255, 255, 255, 0.4); }
+    100% { }
+}
+
+.agent {
+    border-radius: 50%;
+    position: absolute;
+    will-change: transform, top, left, opacity;
+    top: 0; 
+    left: 0;
+    transition: 
+        top 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+        left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.8s ease-out,
+        background-color 0.5s ease;
+    z-index: 10;
+}
+
+.agent.normal { background-color: #475569; opacity: 0.8; } 
+
+.agent.peer { 
+    background-color: #3b82f6; 
+    opacity: 1; 
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.6);
+    z-index: 20;
+} 
+
+.agent.user { 
+    background-color: #f97316; 
+    box-shadow: 0 0 12px #f97316;
+    z-index: 50; 
+    transform: scale(1.4); 
+}
+
+.agent.ghost {
+    background-color: transparent; 
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: none;
+    opacity: 0.4;
+    z-index: 5;
+    transform: scale(0.9);
+    animation: flash-red 1.5s ease-out; 
+}
+
+.agent.new-hire {
+    animation: flash-white 2s ease-out;
+    z-index: 25; 
+}
+
+.agent.ghost.user {
+    border: 2px solid #f97316 !important; 
+    opacity: 0.8 !important; 
+    z-index: 40;
+    box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+}
+
+.agent.ghost.peer {
+    border: 1px solid #3b82f6 !important; 
+    opacity: 0.3 !important; 
+    z-index: 30;
+}
+
+.agent.entering { opacity: 0; }
+.agent.entered { opacity: 1; }
+
+.phase-active {
+    color: #f97316 !important; 
+    opacity: 1 !important;
+    transform: scale(1.05);
+}
+
+/* --- CONTROLS PANEL --- */
+.controls-panel {
+    width: 200px;
+    height: 100%; 
+    flex-shrink: 0;
+    background-color: #1e293b;
+    border-right: 1px solid #334155;
+    padding: 16px; 
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+    z-index: 100;
+    position: relative;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2); 
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    /* Slightly reduce body copy sizes on mobile */
+    .text-base { font-size: 0.95rem; }
+    .text-lg { font-size: 1rem; }
+    .leading-relaxed { line-height: 1.6; }
+    .controls-panel {
+        width: 100%;
+        height: auto;
+        /* Grid Layout */
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        column-gap: 24px;
+        row-gap: 8px;
+        padding: 12px;
+        align-items: center;
+        
+        border-right: none;
+        border-bottom: 1px solid #334155;
+        overflow-y: visible;
+        overflow-x: visible;
+    }
+    
+    .sediment-container {
+        /* Mobile: no scaling; use compact layout */
+        transform: none;
+        width: 100%;
+        padding: 6px 12px 6px 12px; /* tighter top/bottom padding */
+        margin: 0;
+        gap: 6px; /* tighter spacing between layers on mobile */
+    }
+
+    .layer {
+        width: 100%;
+        padding: 6px 2px; /* tighter vertical padding */
+    }
+
+    .layer-label {
+        /* Position labels inside flow above each layer */
+        position: relative;
+        left: 0;
+        bottom: auto;
+        transform: none;
+        text-align: left;
+        width: 100%;
+        font-size: 0.7rem;
+        line-height: 1.3;
+        margin-bottom: 6px;
+        flex-basis: 100%; /* Ensure label takes full width and forces dots to new line */
+    }
+
+    .slot {
+        margin: 0.5px; /* compact but avoids overlap */
+    }
+}
