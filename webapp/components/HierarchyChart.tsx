@@ -44,28 +44,27 @@ const DotShape = (props: any) => {
 };
 
 const HierarchyChart: React.FC = () => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
-    <div className="w-full max-w-2xl mx-auto my-16 px-4 md:px-0">
-      <div className="bg-slate-900 rounded-3xl p-4 md:p-8 shadow-[0_24px_60px_rgba(15,23,42,0.7)] border border-slate-800/70 h-[420px] md:h-[550px] flex flex-col">
+    <div className="w-full max-w mx-auto my-16 px-0 md:px-0">
+      <div className="chart-card">
         {/* Desktop header above chart */}
-        <h3 className="hidden md:block text-left text-white text-2xl font-bold mb-2">
+        <h3 className="chart-heading">
           The shape of the hierarchy
         </h3>
-        <p className="hidden md:block text-left text-slate-400 text-sm leading-relaxed mb-6">
+        <p className="chart-caption">
           Number of positions available at each level in a typical organisation with five layers and a 1:5 management ratio
         </p>
         {/* Mobile header and caption */}
         <div className="md:hidden mb-3 text-left px-2">
-          <h3 className="text-white text-base font-semibold mb-2">The shape of the hierarchy</h3>
-          <p className="text-slate-400 text-[10px] leading-snug">
+          <h3 className="chart-heading-mobile">The shape of the hierarchy</h3>
+          <p className="chart-caption-mobile">
             Positions available at each level in a typical organisation with a 1:5 management ratio.
           </p>
         </div>
-        <div className="flex-grow w-full min-h-0">
+        <div className="flex-grow w-full min-h-0 aspect-square md:aspect-auto">
           <ResponsiveContainer width="100%" height="100%">
             <ScatterChart
-              margin={{ top: 20, right: 40, bottom: 20, left:15 }}
+              margin={{ top: 20, right: 40, bottom: 20, left: 15 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
               <XAxis
@@ -89,8 +88,8 @@ const HierarchyChart: React.FC = () => {
                   const mainText = parts[0];
                   const subText = parts[1] ? `(${parts[1]}` : '';
                   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-                  const mainSize = isMobile ? 12 : 14;
-                  const subSize = isMobile ? 10 : 11;
+                  const mainSize = isMobile ? 11 : 14;
+                  const subSize = isMobile ? 9 : 11;
                   
                   return (
                     <g>
@@ -107,7 +106,7 @@ const HierarchyChart: React.FC = () => {
                 }}
                 domain={[0, 4]}
                 ticks={[0, 1, 2, 3, 4]}
-                width={150}
+                width={typeof window !== 'undefined' && window.innerWidth < 768 ? 125 : 155}
               />
               {/* Solid white guide lines from each point to the Y-axis (render first to sit behind) */}
               {data.map((d, i) => (
@@ -141,13 +140,13 @@ const HierarchyChart: React.FC = () => {
         </div>
         {/* Desktop captions below chart */}
         <div className="hidden md:block mt-6 text-left px-4">
-          <p className="text-slate-500 text-xs max-w-lg mx-auto leading-relaxed italic">
+          <p className="chart-caption-secondary">
             In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="#citation-2" className="text-blue-500 hover:text-blue-400 hover:underline transition-colors">[2]</a>. This ratio compounds at every level.
           </p>
         </div>
         {/* Mobile secondary caption placed below chart */}
         <div className="md:hidden mt-3 text-left px-2">
-          <p className="text-slate-500 text-[10px] leading-snug italic">
+          <p className="chart-caption-secondary-mobile">
             In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="#citation-2" className="text-blue-500 hover:text-blue-400 hover:underline transition-colors">[2]</a>. This ratio compounds at every level.
           </p>
         </div>

@@ -29,6 +29,7 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
   const [turn, setTurn] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [peerCounts, setPeerCounts] = useState<Record<number, number>>({});
+  const [isSticky, setIsSticky] = useState(false);
   
   const agentsRef = useRef<Agent[]>([]);
   const nextAgentIdRef = useRef(1);
@@ -297,7 +298,12 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
         // Phase 3: New Hires
         setPhaseMessage("Phase: New Hires");
         
-        const l1 = LAYERS.find(l => l.id === 1)!;
+        const l1 = LAYERS.find(l => l.id === 1);
+        if (!l1) {
+          setIsAnimating(false);
+          return;
+        }
+
         const l1Active = currentAgents.filter(a => a.layerId === 1 && a.status === 'active');
         const l1Vacancies = l1.capacity - l1Active.length;
         const l1Occupied = new Set(l1Active.map(a => a.slotIdx));
@@ -358,21 +364,42 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
     }
   }, [isRunning, initWorld, updateCoordinates]);
 
+  useEffect(() => {
+      const handleScroll = () => {
+        if (wrapperRef.current) {
+          const rect = wrapperRef.current.getBoundingClientRect();
+          const isMobile = window.innerWidth < 768; // Mobile check
+          const visible = isMobile && rect.bottom > 0 && rect.top < window.innerHeight; // Check visibility
+          setIsSticky(visible);
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    useEffect(() => {
+      if (isSticky) {
+        document.body.classList.add('simulation-sticky');
+      } else {
+        document.body.classList.remove('simulation-sticky');
+      }
+    }, [isSticky]);
   
   return (
-    <div className="w-full h-full bg-[#0f172a] overflow-hidden flex flex-col items-center justify-center relative">
+    <div className="simulation-canvas">
       {/* Mobile scroll controls */}
       {showScrollControls && (
         <div className="absolute top-2 right-2 md:hidden z-30 flex flex-col gap-1">
           <button
-            className="bg-slate-700 text-white text-[10px] px-2 py-1 rounded shadow hover:bg-slate-600 disabled:opacity-40"
+            className="scroll-control-button"
             onClick={() => setOffsetY(prev => Math.max(0, prev - 40))}
             disabled={offsetY <= 0}
           >
             ▲
           </button>
           <button
-            className="bg-slate-700 text-white text-[10px] px-2 py-1 rounded shadow hover:bg-slate-600 disabled:opacity-40"
+            className="scroll-control-button"
             onClick={() => setOffsetY(prev => Math.min(maxOffset, prev + 40))}
             disabled={offsetY >= maxOffset}
           >
@@ -409,12 +436,11 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
              </div>
              
              {Array.from({ length: layer.capacity }).map((_, idx) => (
-                <div
-                    key={`${layer.id}-${idx}`}
-                    id={`slot-${layer.id}-${idx}`}
-                    className="slot"
-                    style={{ width: (window.innerWidth < 768 ? layer.size -1 : layer.size + 4), height: (window.innerWidth < 768 ? layer.size + 0 : layer.size + 4) }}
-                />
+              <div
+                key={`${layer.id}-${idx}`}
+                id={`slot-${layer.id}-${idx}`}
+                className="slot"
+              />
             ))}
           </div>
         ))}
@@ -442,16 +468,13 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
                 className += " new-hire";
             }
 
-            const dot = (window.innerWidth < 768 ? 4 : 6);
             return (
                 <div
                     key={agent.id}
                     className={className}
                     style={{
                         top: coords.top,
-                        left: coords.left,
-                        width: dot,
-                        height: dot
+                  left: coords.left
                     }}
                 />
             );
