@@ -109,23 +109,6 @@ const FACET_DATA: FacetRow[] = [
         ]
     },
     {
-        label: "Top 10th percentile",
-        cells: [
-            { 
-                scenario: "100% Meritocracy", 
-                dist: [{ level: 5, pct: 0 }, { level: 4, pct: 0 }, { level: 3, pct: 0 }, { level: 2, pct: 100 }, { level: 1, pct: 0 }] 
-            },
-            { 
-                scenario: "50% Luck", 
-                dist: [{ level: 5, pct: 2.5 }, { level: 4, pct: 9.3 }, { level: 3, pct: 29.7 }, { level: 2, pct: 47.3 }, { level: 1, pct: 11.1 }] 
-            },
-            { 
-                scenario: "100% Luck", 
-                dist: [{ level: 5, pct: 0.6 }, { level: 4, pct: 2.3 }, { level: 3, pct: 8.6 }, { level: 2, pct: 26 }, { level: 1, pct: 62.5 }] 
-            }
-        ]
-    },
-    {
         label: "Top 25th percentile",
         cells: [
             { 
