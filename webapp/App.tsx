@@ -526,7 +526,7 @@ function App() {
             </a>
             <span>|</span>
             <a
-              id="contact-link"
+              href="mailto:akidataviz+careersessay@gmail.com"
               className="hover:text-slate-900 transition-colors"
             >
               Contact
