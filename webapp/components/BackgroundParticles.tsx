@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 
-// Tunable visual constants (set just these two)
-const DOT_RADIUS_MIN = 2;  // smallest dots
-const DOT_RADIUS_MAX = 12; // largest dots
+// Tunable visual constants
+const DOT_RADIUS_MIN = 2;  
+const DOT_RADIUS_MAX = 12; 
 
 interface Particle {
   x: number;
@@ -26,10 +26,10 @@ interface Props {
     particleOpacity: number;
     lineColor: string;
     lineOpacity: number;
-    particleCount: number; // Extra ambient particles
-    connectionDistance: number; // Max distance for new dynamic lines
-    breakDistance: number; // Distance at which original tree lines snap
-    driftDelay: number; // ms before particles start moving
+    particleCount: number;
+    connectionDistance: number;
+    breakDistance: number;
+    driftDelay: number;
     baseSpeed: number;
   };
 }
@@ -37,9 +37,9 @@ interface Props {
 const BackgroundParticles: React.FC<Props> = ({ 
   className = "",
   config = {
-    particleColor: '#3B82F6', // Blue-500
+    particleColor: '#3B82F6', 
     particleOpacity: 0.6,
-    lineColor: '#93C5FD', // Blue-300
+    lineColor: '#93C5FD', 
     lineOpacity: 0.4,
     particleCount: 10,
     connectionDistance: 150,
@@ -53,8 +53,12 @@ const BackgroundParticles: React.FC<Props> = ({
   const particlesRef = useRef<Particle[]>([]);
   const treeLinksRef = useRef<TreeLink[]>([]);
   const parentMapRef = useRef<Record<number, number>>({});
+  
   const startTimeRef = useRef<number>(Date.now());
   const isMovingRef = useRef<boolean>(false);
+  
+  // --- NEW: Track if we have already built the tree ---
+  const hasInitializedRef = useRef<boolean>(false);
 
   // Helper: Hex to RGB
   const hexToRgb = (hex: string) => {
@@ -66,26 +70,23 @@ const BackgroundParticles: React.FC<Props> = ({
     } : null;
   };
 
+  const randomRadius = () => DOT_RADIUS_MIN + Math.random() * (DOT_RADIUS_MAX - DOT_RADIUS_MIN);
+
   const initSimulation = (width: number, height: number) => {
     const particles: Particle[] = [];
     const treeLinks: TreeLink[] = [];
     let idCounter = 0;
 
-      // Helper: uniform random radius between global min/max
-      const randomRadius = () => DOT_RADIUS_MIN + Math.random() * (DOT_RADIUS_MAX - DOT_RADIUS_MIN);
-
     // --- 1. Generate the Hierarchy Tree (1 -> 5 -> 25) ---
-    // Adjusted tree height scaling
-    const startY = height * 0.10; // Start 10% down the screen
-    const levelHeight = Math.min(height * 0.12, 100); // Reduce level height slightly
+    const startY = height * 0.10; 
+    const levelHeight = Math.min(height * 0.12, 100); 
     
     // Level 1: Root
-      const rootRadius = randomRadius();
     const root = {
       x: width / 2,
       y: startY,
       vx: 0, vy: 0,
-      radius: rootRadius,
+      radius: randomRadius(),
       id: idCounter++
     };
     particles.push(root);
@@ -97,12 +98,11 @@ const BackgroundParticles: React.FC<Props> = ({
     const level2Step = level2Width / (level2Count - 1);
 
     for (let i = 0; i < level2Count; i++) {
-        const level2Radius = randomRadius();
       const p2 = {
         x: level2Start + (i * level2Step),
         y: startY + levelHeight,
         vx: 0, vy: 0,
-        radius: level2Radius,
+        radius: randomRadius(),
         id: idCounter++
       };
       particles.push(p2);
@@ -115,13 +115,11 @@ const BackgroundParticles: React.FC<Props> = ({
       const clusterStep = clusterWidth / (childrenPerNode - 1);
 
       for (let j = 0; j < childrenPerNode; j++) {
-          const level3Radius = randomRadius();
         const p3 = {
           x: clusterStart + (j * clusterStep),
-          // Slight vertical jitter so the bottom layer isn't a perfect line
           y: startY + (levelHeight * 2) + (Math.random() - 0.5) * (levelHeight * 0.3),
           vx: 0, vy: 0,
-          radius: level3Radius,
+          radius: randomRadius(),
           id: idCounter++
         };
         particles.push(p3);
@@ -131,32 +129,29 @@ const BackgroundParticles: React.FC<Props> = ({
 
     // --- 2. Add extra ambient particles ---
     for (let i = 0; i < config.particleCount; i++) {
-        const ambientRadius = randomRadius();
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * config.baseSpeed,
         vy: (Math.random() - 0.5) * config.baseSpeed,
-        radius: ambientRadius,
+        radius: randomRadius(),
         id: idCounter++
       });
     }
 
-    // Replace the ref content completely so we don't accumulate duplicates on resize
     particlesRef.current = particles;
     treeLinksRef.current = treeLinks;
-    // Build quick lookup of parent relationships so we can identify siblings
+    
     const parentMap: Record<number, number> = {};
     treeLinks.forEach(link => {
-      // link.sourceId is the parent of link.targetId in our generated tree
       parentMap[link.targetId] = link.sourceId;
     });
     parentMapRef.current = parentMap;
+    
     startTimeRef.current = Date.now();
     isMovingRef.current = false;
   };
 
-  // Helper: Draw line from SURFACE to SURFACE
   const drawSurfaceLine = (
       ctx: CanvasRenderingContext2D, 
       p1: Particle, 
@@ -165,7 +160,6 @@ const BackgroundParticles: React.FC<Props> = ({
     ) => {
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
     
-    // Offset start and end points by the radius of the circle
     const startX = p1.x + Math.cos(angle) * p1.radius;
     const startY = p1.y + Math.sin(angle) * p1.radius;
     
@@ -192,10 +186,8 @@ const BackgroundParticles: React.FC<Props> = ({
     
     ctx.clearRect(0, 0, width, height);
 
-    // Check Start Delay (Transition from Tree to Chaos)
     if (!isMovingRef.current && Date.now() - startTimeRef.current > config.driftDelay) {
       isMovingRef.current = true;
-      // Explode: Assign random velocities to the static tree nodes
       particlesRef.current.forEach(p => {
         p.vx = (Math.random() - 0.5) * config.baseSpeed;
         p.vy = (Math.random() - 0.5) * config.baseSpeed;
@@ -208,24 +200,20 @@ const BackgroundParticles: React.FC<Props> = ({
         p.x += p.vx;
         p.y += p.vy;
 
-        // --- PHYSICS FIX: Boundary Clamping ---
-        // Prevent particles from getting stuck in walls ("Sticky Walls" bug)
-        
-        // 1. Left/Right
+        // Boundary Clamping
         if (p.x - p.radius < 0) {
-          p.x = p.radius; // Push back inside
+          p.x = p.radius; 
           p.vx *= -1;
         } else if (p.x + p.radius > width) {
-          p.x = width - p.radius; // Push back inside
+          p.x = width - p.radius;
           p.vx *= -1;
         }
 
-        // 2. Top/Bottom
         if (p.y - p.radius < 0) {
-          p.y = p.radius; // Push back inside
+          p.y = p.radius; 
           p.vy *= -1;
         } else if (p.y + p.radius > height) {
-          p.y = height - p.radius; // Push back inside
+          p.y = height - p.radius;
           p.vy *= -1;
         }
       }
@@ -239,7 +227,7 @@ const BackgroundParticles: React.FC<Props> = ({
     // Draw Links
     ctx.lineWidth = 1;
     
-    // 1. Initial Tree Links (Break if stretched too far)
+    // Initial Tree Links
     treeLinksRef.current.forEach(link => {
       if (!link.active) return;
       const p1 = particlesRef.current.find(p => p.id === link.sourceId);
@@ -251,14 +239,14 @@ const BackgroundParticles: React.FC<Props> = ({
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist > config.breakDistance && isMovingRef.current) {
-          link.active = false; // Snap!
+          link.active = false; 
         } else {
            drawSurfaceLine(ctx, p1, p2, `rgba(${lineRgb?.r}, ${lineRgb?.g}, ${lineRgb?.b}, ${config.lineOpacity})`);
         }
       }
     });
 
-    // 2. Dynamic Proximity Links (Form when close)
+    // Dynamic Links
     if (isMovingRef.current) {
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
@@ -269,12 +257,10 @@ const BackgroundParticles: React.FC<Props> = ({
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < config.connectionDistance) {
-            // Skip drawing dynamic links between direct siblings (share same parent)
             const p1Parent = parentMapRef.current[p1.id];
             const p2Parent = parentMapRef.current[p2.id];
-            if (p1Parent !== undefined && p1Parent === p2Parent) {
-              continue; // they're siblings — don't connect
-            }
+            if (p1Parent !== undefined && p1Parent === p2Parent) continue;
+
             const opacity = config.lineOpacity * (1 - dist / config.connectionDistance);
             drawSurfaceLine(ctx, p1, p2, `rgba(${lineRgb?.r}, ${lineRgb?.g}, ${lineRgb?.b}, ${opacity})`);
           }
@@ -293,13 +279,20 @@ const BackgroundParticles: React.FC<Props> = ({
       const dpr = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
       
+      // Update canvas size to match new window size
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       
       const ctx = canvas.getContext('2d');
       ctx?.scale(dpr, dpr);
       
-      initSimulation(rect.width, rect.height);
+      // --- FIX: Only initialize the tree ONCE ---
+      // If we resize after the first load, we SKIP initSimulation.
+      // The particles will simply continue moving in the new space.
+      if (!hasInitializedRef.current) {
+        initSimulation(rect.width, rect.height);
+        hasInitializedRef.current = true;
+      }
     };
 
     handleResize();
@@ -315,7 +308,6 @@ const BackgroundParticles: React.FC<Props> = ({
   return (
     <canvas 
       ref={canvasRef} 
-      // Allow overriding 'fixed' via props, but default to 'block w-full h-full'
       className={`block w-full h-full pointer-events-none ${className}`}
     />
   );

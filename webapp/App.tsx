@@ -508,27 +508,35 @@ function App() {
 
       {/* Methodology */}
       <section className="page-section section-padding-normal relative z-20">
-        <h2 className="section-heading">Methodology</h2>
-        <p className="body-text-small">
-              The aggregate results come from a Monte Carlo simulation written in Python. 
-              The model represents an organisation with five levels and a 1:5 span of control. 
-              Each agent moves through five career stages, and promotion decisions are based on a score that combines a fixed merit value with a configurable amount of random noise.
-            </p>
+<h2 className="section-heading">Methodology</h2>
 
-            <p className="body-text-small">
-              The simulation was repeated until each merit group had 10,000 completed careers. 
-              The outputs include individual career paths and the distribution of final levels for each scenario, which were exported as CSV files for analysis and charting.
-            </p>
+<p className="body-text-small">
+  The aggregate data analysis comes from a Monte Carlo simulation written in Python. 
+  The model represents an organisation with five levels and a 1:5 span of control (one manager for every five employees). 
+  Each agent moves through five career stages, and promotion decisions are based on a score that combines a fixed merit value with a configurable amount of random noise.
+</p>
 
-            <p className="body-text-small">
-              The interactive version uses the same rules and is implemented in React and TypeScript. 
-              The hierarchy is rendered with DOM positioning, and Framer Motion is used to animate state changes in the browser while keeping the core logic consistent with the Python model.
-            </p>
+<p className="body-text-small">
+  The simulation was repeated until each merit group had 10,000 completed careers. 
+  The outputs include individual career paths and the distribution of final levels for each scenario, which were exported as CSV files for analysis.
+</p>
 
-            <p className="body-text-small mb-8">
-              All charts in this essay are based on the Python outputs, and the interactive piece is a real time illustration of the same process. 
-              Source code for both the simulation and the web page is available on GitHub.
-            </p>
+<p className="body-text-small">
+  The interactive essay is built with React and TypeScript using a hybrid rendering approach. 
+  The core simulation uses <strong>Framer Motion</strong> for accessible, state-driven DOM animations, while the ambient background effects rely on the <strong>HTML5 Canvas API</strong> to render particle physics at 60fps without impacting the main thread.
+</p>
+
+<p className="body-text-small mb-8">
+  All charts in this essay are based on the Python outputs, while the interactive piece is a real-time illustration of the same logic. 
+  <a 
+    href="https://github.com/akimatsushima/this-modern-career" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="underline hover:text-slate-800 transition-colors ml-1"
+  >
+    View the source code on GitHub.
+  </a>
+</p>
       </section>
 
       <footer className="bg-slate-50 py-12 text-center text-slate-400 text-sm border-t border-slate-100 relative z-10">
