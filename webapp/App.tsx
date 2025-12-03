@@ -409,7 +409,7 @@ function App() {
       {/* Data Visualization */}
       <section id="dataviz-section" className="relative z-10 flex flex-col md:flex-row">
         {/* Analysis Intro */}
-        <div className="w-full page-section section-padding-tight md:mt-16 md:pt-64 md:pb-16 max-w-4xl">
+        <div className="w-full page-section section-padding-normal md:mt-16 md:pt-64 md:pb-16 max-w-4xl">
           <h2 className="section-heading">Analysis</h2>
           <p className="body-text">
             Playing the simulation once shows you what could happen. Running it thousands of times shows you what usually happens. Across 250,000 simulated careers, we start to see some patterns.
@@ -419,7 +419,6 @@ function App() {
 
       {/* Data Visualization */}
        <section className="relative z-10 flex flex-col md:flex-row max-w-[1600px] mx-auto">
-         {/* Offset below fixed navbar (md:h-16 => 4rem). Use md:top-16 for clear separation. */}
          <div className="dataviz-panel-shell">
              <DataVizPanel stats={stats} activeScenario={activeStep < 10 ? 0 : activeStep - 9} />
            </div>
