@@ -20,6 +20,7 @@ function App() {
   const [stats, setStats] = useState({ total: 0, peers: 0, userLayer: 0 });
   const [isGameOver, setIsGameOver] = useState(false);
   const [phaseMessage, setPhaseMessage] = useState("Ready");
+  const [autoTutorialEnabled, setAutoTutorialEnabled] = useState(true);
   
   // Hooks
   const { scrollYProgress } = useScroll();
@@ -56,11 +57,17 @@ function App() {
         setPhaseMessage("Ready");
         setActiveStep(0);
         setActiveSection('hero');
+        setAutoTutorialEnabled(true);
     }, 100);
   };
 
   const handleManualTurn = () => {
       if (!isGameOver && !triggerTurn) {
+        // If user manually presses when the button shows "Retire",
+        // disable further auto tutorial triggering for the rest of this run.
+        if (turnCount === 4 && autoTutorialEnabled) {
+          setAutoTutorialEnabled(false);
+        }
           setTriggerTurn(true);
       } else if (isGameOver) {
           handleRestart();
@@ -78,6 +85,10 @@ function App() {
 
   // Step Observer (match original working behavior)
   useEffect(() => {
+    if (!autoTutorialEnabled) {
+      return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -88,7 +99,7 @@ function App() {
         const step = parseInt(stepAttr);
         setActiveStep(step);
 
-        // Trigger simulation turns based on scroll step
+        // Trigger simulation turns based on scroll step (only when auto tutorial is enabled)
         if (step === 3 && turnCount === 0 && !isGameOver) setTriggerTurn(true);
         if (step === 4 && turnCount === 1 && !isGameOver) setTriggerTurn(true);
         if (step === 5 && turnCount === 2 && !isGameOver) setTriggerTurn(true);
@@ -98,7 +109,7 @@ function App() {
 
     document.querySelectorAll('.scroll-step').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, [turnCount, isGameOver]);
+  }, [turnCount, isGameOver, autoTutorialEnabled]);
 
   // Section Observer
   useEffect(() => {
@@ -168,7 +179,7 @@ function App() {
            Over 80% of US workers are in companies with more than 20 people <a href="#citation-1" className="body-link">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
          </p>
         <p className="body-text">
-               In this environment, we are raised on the metaphor of the "career ladder." Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
+               In this environment, we are raised on the metaphor of the "career ladder". Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
         </p>
         <p className="body-text">
                But after years of managing teams and studying the data, I discovered something that changed how I think about career progression entirely: advancement isn't just about merit or effort. It's about geometry and chance.
@@ -190,7 +201,7 @@ function App() {
         <section className="page-section section-padding-normal">
           <h2 className="section-heading">The simulation</h2>
             <p className="body-text">
-              This is a simple model of how a career unfolds. There are five career phases and if you are successfully promoted at each phase you reach the top.
+              This is a simple model of how a career unfolds. There are five career phases and if you are successfully promoted at each phase you reach the top.  
             </p>
         </section>
         <div className="simulation-frame">
@@ -323,7 +334,10 @@ function App() {
                   The setup<span className="md:hidden">: </span>
                 </h2>
                 <p className="scroll-step-body">
-                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%. This is a perfect meritocracy. If a seat opens and you are the best, you get it.
+                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%.
+                </p>
+                <p className="scroll-step-body">
+                  At 0% luck, promotions are purely merit-based (the best person wins). At 100% luck, they're completely random. At 50%, merit matters but randomness plays a role.
                 </p>
               </div>
             </div>
@@ -335,7 +349,6 @@ function App() {
                 </h2>
                 <p className="scroll-step-body">
                   As you scroll, the button is pressed automatically in this round. Watch the cycle: people retire (grey dots disappear and create vacancies), promotions happen (dots move up to fill the gaps), and new hires join at the bottom. 
-                  Promotion priority depends on merit and luck.
                 </p>
               </div>
             </div>
@@ -368,18 +381,7 @@ function App() {
                   Final state<span className="md:hidden">: </span>
                 </h2>
                 <p className="scroll-step-body">
-                  Five stages complete. As the top performer in a perfect meritocracy, you reached the top. But look at everyone else. This is the best-case scenario, and most dots barely moved.
-                </p>
-              </div>
-            </div>
-
-            <div data-step={7} className="scroll-step scroll-step-shell">
-              <div className="scroll-step-card">
-                <h2 className="scroll-step-heading">
-                  Try another scenario<span className="md:hidden">: </span>
-                </h2>
-                <p className="scroll-step-body">
-                  That was a perfect meritocracy with you as the single best performer. Now retire then see what happens when you adjust the parameters and try again. You can only live once but you can run many simulations.
+                  Five stages complete. As the top performer in a perfect meritocracy, you reached the top but most peers barely moved. Now hit 'Retire' to try another scenario yourself.
                 </p>
               </div>
             </div>
@@ -457,7 +459,7 @@ function App() {
              For the rest of us, the geometry is shifting. AI is beginning to automate layers of the hierarchy, removing the very rungs we used to climb.
           </p>
            <p className="body-text">
-             Some companies provide an alternative to managing people: specialist tracks that lead to "Principal" and "Distinguished" titles. But more often than not, the geometry barely changes since these roles are usually as rare as the executive ones.          </p>
+             Some companies provide an alternative to managing people: specialist tracks that lead to "Principal" and "Distinguished" titles. But more often than not, the geometry barely changes since these roles are as rare as the executive ones.          </p>
 
           <h3 className="subheading">The maths of quiet quitting</h3>
            <p className="body-text">
