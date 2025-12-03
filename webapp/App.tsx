@@ -189,7 +189,7 @@ function App() {
             I built a simulation I wish I'd played before entering the corporate world.
         </p>
          <p className="body-text">
-           Over 80% of US workers are in companies with more than 20 people <a href="#citation-1" className="body-link">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
+           Over 80% of US workers are in companies with more than 20 people  <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
          </p>
         <p className="body-text">
                In this environment, we are raised on the metaphor of the "career ladder". Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
@@ -409,7 +409,7 @@ function App() {
       <section id="dataviz-section" className="relative z-10 flex flex-col md:flex-row">
         {/* Analysis Intro */}
         <div className="w-full page-section section-padding-roomy md:pt-64 md:pb-16 max-w-4xl">
-          <h2 className="section-heading section-heading--analysis">Analysis</h2>
+          <h2 className="section-heading">Analysis</h2>
           <p className="body-text">
             Playing the simulation once shows you what could happen. Running it thousands of times shows you what usually happens. Across 250,000 simulated careers, we start to see some patterns.
           </p>
@@ -478,7 +478,7 @@ function App() {
 
           <h3 className="subheading">The maths of quiet quitting</h3>
            <p className="body-text">
-             Meanwhile, something else is shifting. Recent surveys show that 52% of Gen Z workers generally don't want to take on middle management roles <a href="#citation-3" className="body-link">[3]</a>. This makes sense mathematically. If advancement is structurally constrained, optimising for promotion is a bad bet.
+             Meanwhile, something else is shifting. Recent surveys show that 52% of Gen Z workers generally don't want to take on middle management roles  <a href="https://www.robertwalters.co.uk/insights/news/blog/conscious-unbossing.html" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[3]</a>. This makes sense mathematically. If advancement is structurally constrained, optimising for promotion is a bad bet.
           </p>
           <p className="body-text">
             “Quiet quitting” also looks different through this lens. In a workplace where pay is tied to position in the hierarchy, pulling back can be seen less as disengagement and more as probability adjustment: matching effort to the real odds of return.
@@ -498,7 +498,7 @@ function App() {
                 [1] Bureau of Labor Statistics. (2024). Table F. Distribution of private sector employment by firm size class. <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">Link</a>
             </li>
             <li id="citation-2">
-                [2] Lattice. (2023). 2023 State of People Strategy Report. <a href="https://lattice.com/articles/lattice-data-reveals-lower-engagement-stretched-managers-and-more" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">Link</a>
+                [2] Lattice. (2023). 2023 State of People Strategy Report.<a href="https://lattice.com/articles/lattice-data-reveals-lower-engagement-stretched-managers-and-more" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">Link</a>
             </li>
             <li id="citation-3">
                 [3] Robert Walters. (2024). Conscious Unbossing. <a href="https://www.robertwalters.co.uk/insights/news/blog/conscious-unbossing.html" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">Link</a>

@@ -484,7 +484,7 @@ h1, h2, h3, h4, h5, h6 {
 
   /* Desktop-specific spacing tweak for Analysis heading */
   .section-heading--analysis {
-    margin-top: 5rem;   /* add a bit more space above on desktop */
+    margin-top: 1rem;   /* add a bit more space above on desktop */
   }
 }
 

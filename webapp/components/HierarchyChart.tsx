@@ -141,13 +141,13 @@ const HierarchyChart: React.FC = () => {
         {/* Desktop captions below chart */}
         <div className="hidden md:block mt-6 text-left px-4">
           <p className="chart-caption-secondary">
-            In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="#citation-2" className="text-blue-500 hover:text-blue-400 hover:underline transition-colors">[2]</a>. This ratio compounds at every level.
+            In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="https://lattice.com/articles/lattice-data-reveals-lower-engagement-stretched-managers-and-more" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[2]</a>. This ratio compounds at every level.
           </p>
         </div>
         {/* Mobile secondary caption placed below chart */}
         <div className="md:hidden mt-3 text-left px-2">
           <p className="chart-caption-secondary-mobile">
-            In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="#citation-2" className="text-blue-500 hover:text-blue-400 hover:underline transition-colors">[2]</a>. This ratio compounds at every level.
+            In a typical contemporary organisation, there's roughly 1 manager for every 5 reports <a href="https://lattice.com/articles/lattice-data-reveals-lower-engagement-stretched-managers-and-more" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[2]</a>. This ratio compounds at every level.
           </p>
         </div>
       </div>
