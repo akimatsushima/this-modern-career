@@ -879,7 +879,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 768px) {
   .scroll-step-spacer-bottom {
-    height: 100vh;
+    height: 85vh;
   }
 }
 

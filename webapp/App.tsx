@@ -391,7 +391,7 @@ function App() {
               </div>
             </div>
 
-            <div data-step={6} className="scroll-step scroll-step-shell">
+            <div data-step={6} className="scroll-step scroll-step-shell md:!h-[10vh]">
               <div className="scroll-step-card">
                 <h2 className="scroll-step-heading">
                   Retirement<span className="md:hidden">: </span>
@@ -409,7 +409,8 @@ function App() {
       {/* Data Visualization */}
       <section id="dataviz-section" className="relative z-10 flex flex-col md:flex-row">
         {/* Analysis Intro */}
-        <div className="w-full page-section section-padding-normal md:mt-16 md:pt-64 md:pb-16 max-w-4xl">
+        
+        <div className="page-section section-padding-normal md:mt-6">
           <h2 className="section-heading">Analysis</h2>
           <p className="body-text">
             Playing the simulation once shows you what could happen. Running it thousands of times shows you what usually happens. Across 250,000 simulated careers, we start to see some patterns.
