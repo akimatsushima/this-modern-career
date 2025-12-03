@@ -3,9 +3,10 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, Lock } from 'lucide-react';
 
 import Navbar from './components/Navbar';
+import BackgroundParticles from './components/BackgroundParticles';
+import HierarchyChart from './components/HierarchyChart';
 import SimulationCanvas from './components/SimulationCanvas';
 import DataVizPanel from './components/DataVizPanel';
-import HierarchyChart from './components/HierarchyChart';
 import { SimConfig } from './types';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.95]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   const handleTurnComplete = (stage: number, gameOver: boolean) => {
     setTurnCount(stage);
@@ -133,15 +135,26 @@ function App() {
   }, []);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell relative bg-slate-50 min-h-screen">
+      <motion.div 
+        style={{ opacity: bgOpacity }} 
+        className="fixed inset-0 z-0 pointer-events-none"
+      >
+        <BackgroundParticles 
+          className="absolute inset-0" 
+        />
+      </motion.div>
       <Navbar onReset={handlePageReset} activeSection={activeSection} />
 
       {/* Hero */}
-      <section id="hero" className="hero-section">
+      <section
+  id="hero"
+  className="hero-section relative z-10"
+>
         <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="max-w-4xl">
-          <div className="hero-pill">
+          {/* <div className="hero-pill">
             A Visual Essay
-          </div>
+          </div> */}
           <h1 className="hero-title">
             This Modern Career
           </h1>
@@ -169,8 +182,8 @@ function App() {
       </section>
 
       {/* Intro Essay */}
-      <section id="intro-text" className="page-section section-padding-hero-offset">
-         <div className="mb-0">
+      <section id="intro-text" className="page-section section-padding-hero-offset relative z-10">
+        <div className="mb-0 bg-slate-50/80 backdrop-blur-sm">
         <h2 className="section-heading">The geometry of ambition</h2>
         <p className="body-text">
             I built a simulation I wish I'd played before entering the corporate world.
@@ -197,12 +210,14 @@ function App() {
       </section>
 
       {/* Simulation */}
-      <section id="simulation-section" className="simulation-shell simulation-section">
+      <section id="simulation-section" className="simulation-shell simulation-section relative z-10">
         <section className="page-section section-padding-normal">
-          <h2 className="section-heading">The simulation</h2>
+          <div className="mb-0 bg-slate-50/80 backdrop-blur-sm">
+            <h2 className="section-heading">The simulation</h2>
             <p className="body-text">
               This is a simple model of how a career unfolds. There are five career phases and if you are successfully promoted at each phase you reach the top.  
             </p>
+          </div>
         </section>
         <div className="simulation-frame">
             {/* Controls */}
@@ -443,7 +458,7 @@ function App() {
       </section>
 
       {/* Conclusions */}
-        <section id="conclusions-section" className="page-section section-padding-roomy">
+        <section id="conclusions-section" className="page-section section-padding-roomy relative z-10">
           <h2 className="section-heading">The rational path</h2>
           
           <h3 className="subheading">Why the bosses may not see this</h3>
@@ -476,7 +491,7 @@ function App() {
       </section>
 
       {/* References */}
-      <section className="page-section section-padding-tight border-t border-slate-200">
+      <section className="page-section section-padding-tight border-t border-slate-200 relative z-10">
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">References</h3>
         <ol className="text-sm text-slate-500 space-y-2">
             <li id="citation-1">
@@ -516,7 +531,7 @@ function App() {
             </p>
       </section>
 
-      <footer className="bg-slate-50 py-12 text-center text-slate-400 text-sm border-t border-slate-100">
+      <footer className="bg-slate-50 py-12 text-center text-slate-400 text-sm border-t border-slate-100 relative z-10">
         <div className="flex justify-center gap-8 mb-8 font-medium text-slate-500">
             <a
               href="https://github.com/akimatsushima/this-modern-career"
