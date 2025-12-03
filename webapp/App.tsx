@@ -182,41 +182,45 @@ function App() {
       </section>
 
       {/* Intro Essay */}
-      <section id="intro-text" className="page-section section-padding-hero-offset relative z-10">
-        <div className="mb-0 bg-slate-50/80 backdrop-blur-sm">
-        <h2 className="section-heading">The geometry of ambition</h2>
-        <p className="body-text">
-            I built a simulation I wish I'd played before entering the corporate world.
-        </p>
-         <p className="body-text">
-           Over 80% of US workers are in companies with more than 20 people  <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
-         </p>
-        <p className="body-text">
-               In this environment, we are raised on the metaphor of the "career ladder". Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
-        </p>
-        <p className="body-text">
-               But after years of managing teams and studying the data, I discovered something that changed how I think about career progression entirely: advancement isn't just about merit or effort. It's about geometry and chance.
-        </p>
-        <p className="body-text">
-               The uncomfortable truth, hiding in plain sight, is that the career ladder is not really a ladder. It behaves more like a pyramid that narrows sharply as you go up, with many of the positions already taken.
-        </p>
-            
-            <HierarchyChart />
-            
-          <p className="body-text">
-               Geometry isn't the only constraint. Unlike school grades, workplace "merit" is unstable. Is it hard work? Speed? Leadership? Different managers value different things. Some projects succeed because of timing. This is why luck is an essential consideration.
-          </p>
+      <section id="intro-text" className="page-section section-padding-normal relative z-10">
+        <div className="mb-0 bg-slate-50/80 backdrop-blur-sm px-2 sm:px-0" style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+          <div style={{maxWidth: '640px', width: '100%'}}>
+            <h2 className="section-heading">The geometry of ambition</h2>
+            <p className="body-text">
+                I built a simulation I wish I'd played before entering the corporate world.
+            </p>
+             <p className="body-text">
+               Over 80% of US workers are in companies with more than 20 people  <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
+             </p>
+            <p className="body-text">
+                   In this environment, we are raised on the metaphor of the "career ladder". Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
+            </p>
+            <p className="body-text">
+                   But after years of managing teams and studying the data, I discovered something that changed how I think about career progression entirely: advancement isn't just about merit or effort. It's about geometry and chance.
+            </p>
+            <p className="body-text">
+                   The uncomfortable truth, hiding in plain sight, is that the career ladder is not really a ladder. It behaves more like a pyramid that narrows sharply as you go up, with many of the positions already taken.
+            </p>
+                
+                <HierarchyChart />
+                
+              <p className="body-text">
+                   Geometry isn't the only constraint. Unlike school grades, workplace "merit" is unstable. Is it hard work? Speed? Leadership? Different managers value different things. Some projects succeed because of timing. This is why luck is an essential consideration.
+              </p>
+          </div>
         </div>
       </section>
 
       {/* Simulation */}
       <section id="simulation-section" className="simulation-shell simulation-section relative z-10">
         <section className="page-section section-padding-normal">
-          <div className="mb-0 bg-slate-50/80 backdrop-blur-sm">
-            <h2 className="section-heading">The simulation</h2>
-            <p className="body-text">
-              This is a simple model of how a career unfolds. There are five career phases and if you are successfully promoted at each phase you reach the top.  
-            </p>
+          <div className="mb-0 bg-slate-50/80 backdrop-blur-sm px-2 sm:px-0" style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+            <div style={{maxWidth: '640px', width: '100%'}}>
+              <h2 className="section-heading">The simulation</h2>
+              <p className="body-text">
+                This is a simple model of how a career unfolds. There are five career phases and if you are successfully promoted at each phase you reach the top.  
+              </p>
+            </div>
           </div>
         </section>
         <div className="simulation-frame">
@@ -349,10 +353,7 @@ function App() {
                   The setup<span className="md:hidden">: </span>
                 </h2>
                 <p className="scroll-step-body">
-                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%.
-                </p>
-                <p className="scroll-step-body">
-                  At 0% luck, promotions are purely merit-based (the best person wins). At 100% luck, they're completely random. At 50%, merit matters but randomness plays a role.
+                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%. At 0% luck, promotions are purely merit-based (the best person wins). At 100% luck, they're completely random. At 50%, merit matters but randomness plays a role.
                 </p>
               </div>
             </div>
@@ -408,7 +409,7 @@ function App() {
       {/* Data Visualization */}
       <section id="dataviz-section" className="relative z-10 flex flex-col md:flex-row">
         {/* Analysis Intro */}
-        <div className="w-full page-section section-padding-roomy md:pt-64 md:pb-16 max-w-4xl">
+        <div className="w-full page-section section-padding-tight md:mt-16 md:pt-64 md:pb-16 max-w-4xl">
           <h2 className="section-heading">Analysis</h2>
           <p className="body-text">
             Playing the simulation once shows you what could happen. Running it thousands of times shows you what usually happens. Across 250,000 simulated careers, we start to see some patterns.
@@ -439,7 +440,7 @@ function App() {
              </div>
 
               <div data-step="11" className="scroll-step analysis-step">
-                <h3 className="analysis-heading">Median performers need randomness to move</h3>
+                <h3 className="analysis-heading">Median performers need luck</h3>
                 <p className="analysis-body">
                     Here is the irony: in a perfectly fair system, the median performer almost never moves. There is always someone ranked above them, so they stay at the bottom. Randomness becomes their only path up. As promotions become a little less tidy, their odds of an occasional jump actually improve.                 </p>
              </div>
@@ -458,7 +459,7 @@ function App() {
       </section>
 
       {/* Conclusions */}
-        <section id="conclusions-section" className="page-section section-padding-roomy relative z-10">
+        <section id="conclusions-section" className="page-section section-padding-normal relative z-10">
           <h2 className="section-heading">The rational path</h2>
           
           <h3 className="subheading">Why the bosses may not see this</h3>
@@ -491,7 +492,7 @@ function App() {
       </section>
 
       {/* References */}
-      <section className="page-section section-padding-tight border-t border-slate-200 relative z-10">
+      <section className="page-section section-padding-normal border-slate-200 relative z-10">
         <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">References</h3>
         <ol className="text-sm text-slate-500 space-y-2">
             <li id="citation-1">
@@ -507,7 +508,7 @@ function App() {
       </section>
 
       {/* Methodology */}
-      <section className="page-section section-padding-normal relative z-20">
+      <section className="page-section section-padding-normal border-t relative z-20">
 <h2 className="section-heading">Methodology</h2>
 
 <p className="body-text-small">
@@ -523,7 +524,7 @@ function App() {
 
 <p className="body-text-small">
   The interactive essay is built with React and TypeScript using a hybrid rendering approach. 
-  The core simulation uses <strong>Framer Motion</strong> for accessible, state-driven DOM animations, while the ambient background effects rely on the <strong>HTML5 Canvas API</strong> to render particle physics at 60fps without impacting the main thread.
+  The core simulation uses Framer Motion for accessible, state-driven DOM animations, while the ambient background effects rely on the HTML5 Canvas API to render particle physics at 60fps without impacting the main thread.
 </p>
 
 <p className="body-text-small mb-8">

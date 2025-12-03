@@ -328,7 +328,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   padding-left: 1.5rem;  /* px-6 */
   padding-right: 1.5rem; /* px-6 */
-  padding-bottom:4rem;
+  padding-bottom:6rem;
   
   text-align: center;
 }
@@ -343,7 +343,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   padding-left: 1.5rem;  /* px-6 */
   padding-right: 1.5rem; /* px-6 */
-  padding-top: 15rem;
+  padding-top: 20rem;
   text-align: center;
   }
 }
@@ -457,16 +457,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section-padding-normal {
-  padding-block: var(--space-12);
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+@media (min-width: 768px) {
+  .section-padding-normal {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-6);
+  }
 }
 
 .section-padding-roomy {
   padding-block: var(--space-16);
-}
-
-.section-padding-hero-offset {
-  padding-block-start: var(--space-24);
-  padding-block-end: var(--space-8);
 }
 
 .section-heading {
@@ -474,47 +476,61 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.015em; /* tracking-tight */
   color: #020617;         /* text-slate-900 */
   font-size: 1.5rem;      /* text-2xl base */
-  margin-bottom: 2rem;    /* mb-8 */
+  margin-bottom: 0.75rem;    /* mb-8 */
 }
 
 @media (min-width: 768px) {
   .section-heading {
     font-size: 2.25rem;   /* md:text-4xl */
+    margin-bottom: 1.5rem;    /* mb-8 */
+  }
   }
 
-  /* Desktop-specific spacing tweak for Analysis heading */
-  .section-heading--analysis {
-    margin-top: 1rem;   /* add a bit more space above on desktop */
-  }
-}
+
+
 
 .subheading {
-  font-size: 1.25rem;     /* text-xl */
+  font-size: 1rem;     /* text-xl */
   font-weight: 600;       /* semibold */
   color: #020617;         /* text-slate-900 */
-  margin-top: 2.5rem;     /* extra space before subsections */
-  margin-bottom: 0.75rem; /* slightly tighter to following text */
+  margin-top: 1.5rem;     /* extra space before subsections */
+  margin-bottom: 0.5rem; /* slightly tighter to following text */
+}
+
+.section-heading + .subheading {
+  margin-top: 0; 
 }
 
 @media (min-width: 768px) {
   .subheading {
     font-size: 1.5rem;    /* md:text-2xl */
     margin-top: 3rem;     /* a bit more spacing on desktop */
+    margin-bottom: 0.75rem; /* slightly tighter to following text */
   }
+.section-heading + .subheading {
+    margin-top: 0; 
+  }
+
 }
+
 
 
 .body-text {
   font-size: 0.9rem;        /* mobile body size */
   color: #475569;           /* text-slate-600 */
   line-height: 1.9;         /* relaxed leading */
-  margin-bottom: 1.5rem;    /* mb-6 */
+  margin-bottom: 1rem;    /* mb-6 */
   font-weight: 400;         /* regular */
+}
+
+.page-section .body-text:last-child {
+  margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
   .body-text {
     font-size: 1.25rem;   /* md:text-xl */
+    margin-bottom: 1.5rem;    /* mb-6 */
   }
 }
 
@@ -1262,22 +1278,23 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Analysis scroll steps (text beside charts) */
 .analysis-step {
-  min-height: 80vh;           /* slightly shorter on mobile */
+  min-height: 10vh;           /* slightly shorter on mobile */
   display: flex;              /* flex */
   flex-direction: column;     /* flex-col */
   justify-content: center;    /* justify-center */
-  padding: 3.5rem 2rem;       /* tighter vertical padding: py-14 px-8 */
+  padding: 2rem 2rem;       /* tighter vertical padding: py-14 px-8 */
 }
 
 @media (min-width: 768px) {
   .analysis-step {
     min-height: 80vh;         /* min-h-[80vh] */
     padding-inline: 3rem;     /* md:px-12 */
+    padding: 3.5rem 2rem;       /* tighter vertical padding: py-14 px-8 */
   }
 }
 
 .analysis-heading {
-  font-size: 1.25rem;          /* text-2xl */
+  font-size: 1rem;          /* text-2xl */
   font-weight: 600;           /* font-medium */
   color: #020617;             /* text-slate-900 */
   margin-bottom: 0.75rem;      /* mb-6 */

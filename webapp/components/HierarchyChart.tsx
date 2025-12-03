@@ -45,7 +45,7 @@ const DotShape = (props: any) => {
 
 const HierarchyChart: React.FC = () => {
   return (
-    <div className="w-full max-w mx-auto my-16 px-0 md:px-0">
+    <div className="w-full max-w mx-auto my-8 md:my-12 px-0 md:px-0">
       <div className="chart-card">
         {/* Desktop header above chart */}
         <h3 className="chart-heading">
