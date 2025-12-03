@@ -190,16 +190,16 @@ function App() {
                 I built a simulation I wish I'd played before entering the corporate world.
             </p>
              <p className="body-text">
-               Over 80% of US workers are in companies with more than 20 people  <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[1]</a>, large enough to require hierarchy. These structures have persisted, helping coordinate complex work, from ancient armies to modern corporations.
+               Over 80% of US workers are in companies with more than 20 people  <a href="https://www.bls.gov/web/cewbd/table_f.txt" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-600">[1]</a>, large enough to need a hierarchical structure. Hierarchies have existed for thousands of years and they are not about to vanish.
              </p>
             <p className="body-text">
                    In this environment, we are raised on the metaphor of the "career ladder". Work hard, climb up, reach the top. It sounds simple. It sounds fair. It motivates us to put in extra effort.
             </p>
             <p className="body-text">
-                   But after years of managing teams and studying the data, I discovered something that changed how I think about career progression entirely: advancement isn't just about merit or effort. It's about geometry and chance.
+                   But after years of managing teams, and studying the data, I discovered something that completely changed how I think about career progression: advancement isn't just about merit or effort. It's about geometry and chance.
             </p>
             <p className="body-text">
-                   The uncomfortable truth, hiding in plain sight, is that the career ladder is not really a ladder. It behaves more like a pyramid that narrows sharply as you go up, with many of the positions already taken.
+                   The uncomfortable truth, hiding in plain sight, is that the career ladder is not really a ladder. It is a pyramid that narrows sharply as you go up, with many of the positions already taken.
             </p>
                 
                 <HierarchyChart />
@@ -353,7 +353,7 @@ function App() {
                   The setup<span className="md:hidden">: </span>
                 </h2>
                 <p className="scroll-step-body">
-                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%. At 0% luck, promotions are purely merit-based (the best person wins). At 100% luck, they're completely random. At 50%, merit matters but randomness plays a role.
+                  In this tutorial, we are going to rig the game in your favour. You are the #1 ranked employee by merit, and Luck is set to 0%, so promotions are purely merit-based.
                 </p>
               </div>
             </div>
@@ -394,10 +394,10 @@ function App() {
             <div data-step={6} className="scroll-step scroll-step-shell">
               <div className="scroll-step-card">
                 <h2 className="scroll-step-heading">
-                  Final state<span className="md:hidden">: </span>
+                  Retirement<span className="md:hidden">: </span>
                 </h2>
                 <p className="scroll-step-body">
-                  Five stages complete. As the top performer in a perfect meritocracy, you reached the top but most peers barely moved. Now hit 'Retire' to try another scenario yourself.
+                  Now hit 'Retire' to try another scenario yourself. For example, 50% Luck. We define this as a system where half of your rating is based on skill, and the other half is random noise and circumstance.
                 </p>
               </div>
             </div>
@@ -435,14 +435,14 @@ function App() {
               <div data-step="10" className="scroll-step analysis-step">
                 <h3 className="analysis-heading">The best get blocked by noise</h3>
                 <p className="analysis-body">
-                   In a pure meritocracy, the top-ranked employee reaches the CEO level every time. But as soon as we introduce a realistic amount of noise, that guarantee disappears. With luck set to 50%, the top performer’s odds of reaching the C-suite fall from 100% to around 6%. Small amounts of randomness create large differences in who actually rises.
+                   In a pure meritocracy, the top-ranked employee reaches the CEO level every time. But as soon as we introduce a realistic amount of noise, that guarantee disappears. With Luck set to 50%, the top performer’s odds of reaching the C-suite fall from 100% to around 6%. Small amounts of randomness create large differences in who actually rises.
                  </p>
              </div>
 
               <div data-step="11" className="scroll-step analysis-step">
                 <h3 className="analysis-heading">Median performers need luck</h3>
                 <p className="analysis-body">
-                    Here is the irony: in a perfectly fair system, the median performer almost never moves. There is always someone ranked above them, so they stay at the bottom. Randomness becomes their only path up. As promotions become a little less tidy, their odds of an occasional jump actually improve.                 </p>
+                    Here is the irony: in a perfectly fair system, the median performer never progresses. There is always someone ranked above them, so they stay at the bottom. Randomness becomes their only path up. In fact, at 50% Luck, they have 11% chance of becoming a Manager.                 </p>
              </div>
 
              <div data-step="12" className="scroll-step analysis-step">

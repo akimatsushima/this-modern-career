@@ -206,19 +206,21 @@ const DataVizPanel: React.FC<DataVizPanelProps> = ({ activeScenario }) => {
                     axisLine={false}
                     tickLine={false} 
                 />
-                <Tooltip 
-                    contentStyle={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.8)', 
-                      borderColor: '#e2e8f0', 
-                      color: '#0f172a', 
-                      borderRadius: '8px', 
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                      backdropFilter: 'blur(12px)'
-                    }}
-                    itemStyle={{color: '#0f172a'}}
-                    cursor={{fill: 'rgba(255,255,255,0.05)'}}
-                    formatter={(value: number) => [formatPercent(value), 'Percent of Employees']}
-                />
+                {!isMobile && (
+                  <Tooltip 
+                      contentStyle={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: '#e2e8f0', 
+                        color: '#0f172a', 
+                        borderRadius: '8px', 
+                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                        backdropFilter: 'blur(12px)'
+                      }}
+                      itemStyle={{color: '#0f172a'}}
+                      cursor={{fill: 'rgba(255,255,255,0.05)'}}
+                      formatter={(value: number) => [formatPercent(value), 'Percent of Employees']}
+                  />
+                )}
                 <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]}>
                     <LabelList 
                         dataKey="value" 
@@ -236,84 +238,125 @@ const DataVizPanel: React.FC<DataVizPanelProps> = ({ activeScenario }) => {
     );
   };
 
-    const renderFacetChart = () => {
-        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-        const colTemplate = isMobile ? '65px 1fr 1fr 1fr' : '100px 1fr 1fr 1fr';
+const renderFacetChart = () => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    // MOBILE LAYOUT: 5 Columns
+    // [Label 48px] [Axis 20px] [Data 1fr] [Data 1fr] [Data 1fr]
+    // This ensures the 3 Data columns are mathematically identical in width.
+    const colTemplate = isMobile ? '48px 20px 1fr 1fr 1fr' : '100px 1fr 1fr 1fr';
 
     return (
-        <div className="h-full flex flex-col text-slate-200 overflow-hidden relative">
-             <div className="mb-4">
-                 <h3 className="dataviz-heading">Merit vs luck: career outcomes</h3>
-             </div>
-
-                 <div className="grid gap-4 mb-4 border-b border-slate-700 pb-2" style={{ gridTemplateColumns: colTemplate }}>
-                <div className="font-bold text-[10px] md:text-xs text-slate-500 uppercase tracking-wider self-end">Merit Level</div>
-                     <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">100% Meritocracy</div>
-                     <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">50% Luck</div>
-                     <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">100% Luck</div>
-                 </div>
-
-                         <div className="flex-grow flex flex-col justify-between">
-                             {(() => {
-                                    let rows = FACET_DATA;
-                                    if (isMobile) {
-                                        const panelHeight = panelRef.current?.clientHeight || window.innerHeight;
-                                        const fullSet = ['Top 1','Top 25th percentile','Median Performer'];
-                                        const twoSet = ['Top 1','Median Performer'];
-                                        const requiredForThree = 420; // px; below this, show only two merit levels
-                                        const useTwo = panelHeight < requiredForThree;
-                                        rows = FACET_DATA.filter(r => (useTwo ? twoSet : fullSet).includes(r.label));
-                                    }
-                                    return rows.map((row, idx) => {
-                                        const isRowHighlighted = (activeScenario === 1 && row.label === 'Top 1') || (activeScenario !== 1 && row.label === 'Median Performer');
-                                        return (
-                                            <div
-                                                key={row.label}
-                                                className="grid gap-1 items-center transition-opacity duration-500"
-                                                style={{ gridTemplateColumns: colTemplate }}
-                                            >
-                                                <div className={`text-[11px] md:text-sm font-semibold leading-tight pr-2 transition-colors duration-500 ${isRowHighlighted ? 'text-blue-400 font-bold' : 'text-slate-300'}`}>{row.label}</div>
-                                                                                                {row.cells.map((cell, cIdx) => (
-                                                                                                        <div
-                                                                                                            key={cIdx}
-                                                                                                            className={`${isMobile ? 'h-[90px]' : 'h-[120px]'} border-l border-slate-700 pl-3 relative flex flex-col justify-center gap-1`}
-                                                                                                        >
-                                                        {cell.dist.map(d => {
-                                                            const barId = `${idx}-${cIdx}-${d.level}`;
-                                                            const isBarHovered = hoveredBarId === barId;
-                                                            const barColor = isBarHovered ? 'bg-blue-300' : isRowHighlighted ? 'bg-blue-500' : 'bg-slate-500 opacity-40';
-                                                            const textColor = isBarHovered ? 'text-white font-bold scale-110' : isRowHighlighted ? 'text-slate-200' : 'text-slate-400';
-                                                            return (
-                                                                <div
-                                                                    key={d.level}
-                                                                    className="flex items-center gap-1 h-[16px] text-[11px] group cursor-pointer transition-transform duration-200"
-                                                                    onMouseEnter={() => setHoveredBarId(barId)}
-                                                                    onMouseLeave={handleBarLeave}
-                                                                >
-                                                                    {!(isMobile && cIdx > 0) && (
-                                                                        <div className="w-6 text-right text-slate-500 mono-text text-[10px]">{LEVEL_ABBREVS[d.level]}</div>
-                                                                    )}
-                                                                    <div className="flex-grow h-full bg-slate-800/70 relative rounded-sm overflow-hidden">
-                                                                        <div
-                                                                            className={`h-full absolute left-0 top-0 rounded-sm transition-all duration-300 ${barColor}`}
-                                                                            style={{ width: `${d.pct}%`, opacity: d.pct > 0 ? undefined : 0 }}
-                                                                        />
-                                                                    </div>
-                                                                    <div className={`w-10 font-medium transition-all duration-300 origin-left ${textColor}`}>
-                                                                        {d.pct >= 1 ? `${Math.round(d.pct)}%` : d.pct > 0 ? '<1%' : ''}
-                                                                    </div>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        );
-                                    });
-                             })()}
-                         </div>
-             
+      <div className="h-full flex flex-col text-slate-200 overflow-hidden relative">
+        <div className="mb-4">
+          <h3 className="dataviz-heading">Merit vs luck: career outcomes</h3>
         </div>
+
+        <div 
+            className={`grid ${isMobile ? 'gap-1' : 'gap-4'} mb-4 border-b border-slate-700 pb-2`} 
+            style={{ gridTemplateColumns: colTemplate }}
+        >
+          {/* Header spans 2 columns on mobile to cover the label + axis gap */}
+          <div className={`font-bold text-[10px] md:text-xs text-slate-500 uppercase tracking-wider self-end ${isMobile ? 'col-span-2' : ''}`}>
+            Merit Level
+          </div>
+          <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">
+            100% Meritocracy
+          </div>
+          <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">
+            50% Luck
+          </div>
+          <div className="text-center font-bold text-[10px] md:text-sm text-slate-300">
+            100% Luck
+          </div>
+        </div>
+
+        <div className="flex-grow flex flex-col justify-between">
+          {(() => {
+            let rows = FACET_DATA;
+            if (isMobile) {
+              const panelHeight = panelRef.current?.clientHeight || window.innerHeight;
+              const fullSet = ['Top 1', 'Top 25th percentile', 'Median Performer'];
+              const twoSet = ['Top 1', 'Median Performer'];
+              const requiredForThree = 420;
+              const useTwo = panelHeight < requiredForThree;
+              rows = FACET_DATA.filter(r => (useTwo ? twoSet : fullSet).includes(r.label));
+            }
+            return rows.map((row, idx) => {
+              const isRowHighlighted = (activeScenario === 1 && row.label === 'Top 1') || (activeScenario !== 1 && row.label === 'Median Performer');
+              
+              return (
+                <div
+                  key={row.label}
+                  className={`grid ${isMobile ? 'gap-0.5' : 'gap-1'} items-center transition-opacity duration-500`}
+                  style={{ gridTemplateColumns: colTemplate }}
+                >
+                  {/* Column 1: Row Label (Top 1, Median, etc) */}
+                  <div className={`text-[11px] md:text-sm font-semibold leading-tight pr-2 transition-colors duration-500 ${isRowHighlighted ? 'text-blue-400 font-bold' : 'text-slate-300'}`}>
+                    {row.label}
+                  </div>
+
+                  {/* Column 2 (Mobile Only): The dedicated Axis Column */}
+                  {isMobile && (
+                    <div className="h-[90px] flex flex-col justify-center gap-1">
+                       {/* We map the levels [5,4,3,2,1] to match the data structure exactly */}
+                       {[5,4,3,2,1].map((level) => (
+                           <div key={level} className="h-[16px] flex items-center justify-end">
+                               <span className="text-[9px] text-slate-500 mono-text leading-none">
+                                   {LEVEL_ABBREVS[level]}
+                               </span>
+                           </div>
+                       ))}
+                    </div>
+                  )}
+                  
+                  {/* Columns 3, 4, 5: The Data */}
+                  {row.cells.map((cell, cIdx) => (
+                    <div
+                      key={cIdx}
+                      className={`${isMobile ? 'h-[90px]' : 'h-[120px] border-l border-slate-700'} pl-0 relative flex flex-col justify-center gap-1`}
+                    >
+                      {cell.dist.map(d => {
+                        const barId = `${idx}-${cIdx}-${d.level}`;
+                        const isBarHovered = hoveredBarId === barId;
+                        const barColor = isBarHovered ? 'bg-blue-300' : isRowHighlighted ? 'bg-blue-500' : 'bg-slate-500 opacity-40';
+                        const textColor = isBarHovered ? 'text-white font-bold scale-110' : isRowHighlighted ? 'text-slate-200' : 'text-slate-400';
+                        
+                        return (
+                          <div
+                            key={d.level}
+                            className="flex items-center gap-1 h-[16px] text-[11px] group cursor-pointer transition-transform duration-200"
+                            onMouseEnter={() => setHoveredBarId(barId)}
+                            onMouseLeave={handleBarLeave}
+                          >
+                            {/* Desktop Axis Labels (Inside the cell). Mobile hidden because they are in Col 2 now. */}
+                            {!isMobile && (
+                              <div className="w-6 text-right text-slate-500 mono-text text-[10px]">
+                                {LEVEL_ABBREVS[d.level]}
+                              </div>
+                            )}
+
+                            <div className="flex-grow h-full bg-slate-800/70 relative rounded-sm overflow-hidden">
+                              <div
+                                className={`h-full absolute left-0 top-0 rounded-sm transition-all duration-300 ${barColor}`}
+                                style={{ width: `${d.pct}%`, opacity: d.pct > 0 ? undefined : 0 }}
+                              />
+                            </div>
+                            
+                            <div className={`${isMobile ? 'w-7 text-[10px]' : 'w-10'} font-medium transition-all duration-300 origin-left ${textColor}`}>
+                              {d.pct >= 1 ? `${Math.round(d.pct)}%` : d.pct > 0 ? '<1%' : ''}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              );
+            });
+          })()}
+        </div>
+      </div>
     );
   };
 
@@ -359,24 +402,26 @@ const DataVizPanel: React.FC<DataVizPanelProps> = ({ activeScenario }) => {
                             axisLine={false}
                             tickFormatter={(val) => `${val}%`}
                         />
-                        <Tooltip 
+                        {!isMobile && (
+                          <Tooltip 
                             cursor={{fill: 'rgba(255,255,255,0.05)'}}
                             contentStyle={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.8)', 
-                                borderColor: '#e2e8f0', 
-                                borderRadius: '8px', 
-                                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                                backdropFilter: 'blur(12px)'
+                              backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                              borderColor: '#e2e8f0', 
+                              borderRadius: '8px', 
+                              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                              backdropFilter: 'blur(12px)'
                             }}
                             itemStyle={{color: '#0f172a'}}
                             labelStyle={{color: '#64748b', fontWeight: 'bold', fontSize: '12px', marginBottom: '4px'}}
                             formatter={(val: number, name: string) => {
-                                const formattedVal = formatPercent(val);
-                                const shortName = name.includes('Individual') ? 'Individual Contributor' : 'Manager';
-                                return [formattedVal, shortName];
+                              const formattedVal = formatPercent(val);
+                              const shortName = name.includes('Individual') ? 'Individual Contributor' : 'Manager';
+                              return [formattedVal, shortName];
                             }}
                             labelFormatter={(label) => `Career phase ${label} of 5`}
-                        />
+                          />
+                        )}
                         
                         <Bar 
                             dataKey="manager" 
