@@ -502,7 +502,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 768px) {
   .section-heading {
     font-size: 2.25rem;   /* md:text-4xl */
-    margin-bottom: 1.5rem;    /* mb-8 */
+    margin-bottom: 2rem;    /* mb-8 */
   }
   }
 
@@ -539,7 +539,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.9rem;        /* mobile body size */
   color: #475569;           /* text-slate-600 */
   line-height: 1.9;         /* relaxed leading */
-  margin-bottom: 1rem;    /* mb-6 */
+  margin-bottom: 0.5rem;    /* mb-6 */
   font-weight: 400;         /* regular */
 }
 
@@ -550,7 +550,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 768px) {
   .body-text {
     font-size: 1.25rem;   /* md:text-xl */
-    margin-bottom: 1.5rem;    /* mb-6 */
+    margin-bottom: 1rem;    /* mb-6 */
   }
 }
 
