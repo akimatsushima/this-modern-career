@@ -152,7 +152,7 @@ function App() {
   id="hero"
   className="hero-section relative z-10"
 >
-        <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="max-w-4xl">
+        <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="max-w-5xl">
           {/* <div className="hero-pill">
             A Visual Essay
           </div> */}
@@ -163,7 +163,7 @@ function App() {
             A simulation of corporate hierarchy
           </div>
           <div className="hero-meta">
-             <span className="hero-meta-highlight">Aki Matsushima</span>
+             <span>Aki Matsushima</span>
              <span>|</span>
              <span>December 1, 2025</span>
              <span className="hidden md:inline">|</span>
@@ -185,7 +185,7 @@ function App() {
       {/* Intro Essay */}
       <section id="intro-text" className="page-section section-padding-normal relative z-10">
         <div className="mb-0 bg-slate-50/80 backdrop-blur-sm px-2 sm:px-0" style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-          <div style={{maxWidth: '640px', width: '100%'}}>
+          <div style={{maxWidth: '65ch', width: '100%'}}>
             <h2 className="section-heading">The geometry of ambition</h2>
             <p className="body-text">
                 I built a simulation I wish I'd played before entering the corporate world.

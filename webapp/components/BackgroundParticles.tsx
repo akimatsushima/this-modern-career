@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 
-// Tunable visual constants
 const DOT_RADIUS_MIN = 2;  
 const DOT_RADIUS_MAX = 12; 
 
@@ -40,9 +39,9 @@ const BackgroundParticles: React.FC<Props> = ({
   isRunning = false,
   config = {
     particleColor: '#3B82F6', 
-    particleOpacity: 0.6,
+    particleOpacity: 0.5,
     lineColor: '#93C5FD', 
-    lineOpacity: 0.4,
+    lineOpacity: 0.5,
     particleCount: 10,
     connectionDistance: 150,
     breakDistance: 250,
@@ -301,7 +300,7 @@ const BackgroundParticles: React.FC<Props> = ({
       const ctx = canvas.getContext('2d');
       ctx?.scale(dpr, dpr);
       
-      // --- FIX: Only initialize the tree ONCE ---
+      // ---Only initialize the tree ONCE ---
       // If we resize after the first load, we SKIP initSimulation.
       // The particles will simply continue moving in the new space.
       if (!hasInitializedRef.current) {
