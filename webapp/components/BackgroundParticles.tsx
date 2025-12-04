@@ -32,10 +32,12 @@ interface Props {
     driftDelay: number;
     baseSpeed: number;
   };
+  isRunning?: boolean;
 }
 
 const BackgroundParticles: React.FC<Props> = ({ 
   className = "",
+  isRunning = false,
   config = {
     particleColor: '#3B82F6', 
     particleOpacity: 0.6,
@@ -186,6 +188,11 @@ const BackgroundParticles: React.FC<Props> = ({
     
     ctx.clearRect(0, 0, width, height);
 
+    // Responsive distances: reduce link distances on small screens
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const connectionDistance = isMobile ? Math.max(50, Math.round(config.connectionDistance * 0.67)) : config.connectionDistance;
+    const breakDistance = isMobile ? Math.max(80, Math.round(config.breakDistance * 0.72)) : config.breakDistance;
+
     if (!isMovingRef.current && Date.now() - startTimeRef.current > config.driftDelay) {
       isMovingRef.current = true;
       particlesRef.current.forEach(p => {
@@ -238,7 +245,7 @@ const BackgroundParticles: React.FC<Props> = ({
         const dy = p2.y - p1.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist > config.breakDistance && isMovingRef.current) {
+        if (dist > breakDistance && isMovingRef.current) {
           link.active = false; 
         } else {
            drawSurfaceLine(ctx, p1, p2, `rgba(${lineRgb?.r}, ${lineRgb?.g}, ${lineRgb?.b}, ${config.lineOpacity})`);
@@ -246,8 +253,11 @@ const BackgroundParticles: React.FC<Props> = ({
       }
     });
 
-    // Dynamic Links
-    if (isMovingRef.current) {
+    // Dynamic Links: only form new (ambient) connections after 5s.
+    // This ensures the first 5 seconds show only the main tree (parent->child) links.
+    const linkAllowed = (Date.now() - startTimeRef.current > 5000);
+
+    if (linkAllowed) {
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
           const p1 = particlesRef.current[i];
@@ -256,12 +266,17 @@ const BackgroundParticles: React.FC<Props> = ({
           const dy = p2.y - p1.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < config.connectionDistance) {
+          if (dist < connectionDistance) {
             const p1Parent = parentMapRef.current[p1.id];
             const p2Parent = parentMapRef.current[p2.id];
+
+            // Skip sibling connections (same parent)
             if (p1Parent !== undefined && p1Parent === p2Parent) continue;
 
-            const opacity = config.lineOpacity * (1 - dist / config.connectionDistance);
+            // Skip parent-child pairs too (they are rendered as the main tree links)
+            if (p2Parent === p1.id || p1Parent === p2.id) continue;
+
+            const opacity = config.lineOpacity * (1 - dist / connectionDistance);
             drawSurfaceLine(ctx, p1, p2, `rgba(${lineRgb?.r}, ${lineRgb?.g}, ${lineRgb?.b}, ${opacity})`);
           }
         }

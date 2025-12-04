@@ -142,6 +142,7 @@ function App() {
       >
         <BackgroundParticles 
           className="absolute inset-0" 
+          isRunning={simRunning}
         />
       </motion.div>
       <Navbar onReset={handlePageReset} activeSection={activeSection} />
@@ -391,7 +392,7 @@ function App() {
               </div>
             </div>
 
-            <div data-step={6} className="scroll-step scroll-step-shell md:!h-[10vh]">
+            <div data-step={6} className="scroll-step scroll-step-shell">
               <div className="scroll-step-card">
                 <h2 className="scroll-step-heading">
                   Retirement<span className="md:hidden">: </span>
@@ -418,7 +419,6 @@ function App() {
         </div>
       </section>
 
-      {/* Data Visualization */}
        <section className="relative z-10 flex flex-col md:flex-row max-w-[1600px] mx-auto">
          <div className="dataviz-panel-shell">
              <DataVizPanel stats={stats} activeScenario={activeStep < 10 ? 0 : activeStep - 9} />
