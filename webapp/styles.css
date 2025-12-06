@@ -346,7 +346,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   padding-left: 1.5rem;  /* px-6 */
   padding-right: 1.5rem; /* px-6 */
-  padding-top: 20rem;
+  padding-top: 19rem;
   text-align: center;
   }
 }
@@ -589,7 +589,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;           /* semibold */
   text-transform: uppercase;  /* uppercase */
   letter-spacing: 0.1em;      /* tracking-wider-ish */
-  color: #94a3b8;             /* text-slate-400 */
+  color: #B0B3C7;             /* text-slate-400 */
   display: flex;              /* flex */
   align-items: center;        /* items-center */
   gap: 0.5rem;                /* gap-2 */
@@ -609,23 +609,23 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;       /* items-center */
   justify-content: center;   /* justify-center */
   gap: 0.25rem;              /* gap-1 */
-  margin-top: 0;             /* md:ml-0 baseline */
+  margin-top: 0.5rem;             /* md:ml-0 baseline */
   margin-left: 0;
   height: 100%;              /* h-full */
 }
 
 @media (min-width: 768px) {
   .ui-inline-stack {
-    gap: 0.5rem;             /* md:gap-2 */
-    margin-top: 1rem;        /* md:mt-4 */
+    gap: 0rem;             /* md:gap-2 */
     height: auto;            /* md:h-auto */
+    margin-top: 0;
   }
 }
 
 .ui-status-text {
   margin-top: 0.25rem;       /* mt-1 */
-  font-size: 0.625rem;       /* text-[10px] */
-  color: #64748b;            /* text-slate-500 */
+  font-size: 0.75rem;       /* text-[10px] */
+  color: #B0B3C7;            /* text-slate-500 */
 }
 
 /* Simulation control rows and form controls */
@@ -683,7 +683,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;        /* md:flex */
     justify-content: space-between;
     margin-top: 0.25rem;  /* mt-1 */
-    font-size: 0.625rem;  /* text-[10px] */
+    font-size: 0.7rem;  /* text-[10px] */
     color: #64748b;       /* text-slate-500 */
     font-weight: 400;     /* regular */
   }
@@ -706,7 +706,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 768px) {
   .control-select {
-    font-size: 0.75rem;   /* md:text-xs */
+    font-size: 0.825rem;   /* md:text-xs */
     padding: 0.625rem;    /* md:p-2.5 */
   }
 }
@@ -718,8 +718,28 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (min-width: 768px) {
   .ui-status-text {
-    margin-top: 0.5rem;      /* md:mt-2 */
-    font-size: 0.75rem;      /* md:text-xs */
+    margin-bottom: 0rem;      /* md:mt-2 */
+    font-size: 0.825rem;      /* md:text-xs */
+    margin-top: 0.5rem;
+  }
+}
+
+/* Stage-specific text: desktop only, make slightly more prominent */
+@media (min-width: 768px) {
+  .ui-stage-text {
+    font-size: 0.875rem; /* md:text-sm (~14px) */
+    font-weight: 600;    /* semibold for emphasis */
+  }
+}
+
+/* Hide the literal "Ready" phase indicator on mobile, keep visible on desktop */
+.phase-ready {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .phase-ready {
+    display: inline-block;
   }
 }
 
@@ -747,11 +767,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .sim-legend-heading {
   font-weight: 600;          /* semibold */
-  color: #64748b;            /* text-slate-500 */
-  margin-bottom: 0.5rem;     /* mb-2 */
+  color: #B0B3C7;           /* text-slate-500 */
+  margin-bottom: 0.25rem;     /* mb-2 */
   text-transform: uppercase; /* uppercase */
   letter-spacing: 0.08em;    /* tracking-wider-ish */
-  font-size: 0.625rem;       /* text-[10px] */
+  font-size: 0.7rem;       /* text-[10px] */
 }
 
 .sim-legend-item {
@@ -1240,15 +1260,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- CONTROLS PANEL --- */
 .controls-panel {
-    width: 200px;
+    width: 232px;
     height: 100%; 
     flex-shrink: 0;
     background-color: #1e293b;
     border-right: 1px solid #334155;
-    padding: 16px; 
+    padding: 32px; 
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 0px;
     align-items: stretch;
     z-index: 100;
     position: relative;
@@ -1263,11 +1283,10 @@ h1, h2, h3, h4, h5, h6 {
         /* Grid Layout */
         display: grid;
         grid-template-columns: 1fr 1fr; 
-        column-gap: 24px;
+      column-gap: 32px !important;
         row-gap: 6px;
         padding: 6px 16px 2px 16px;
         align-items: center;
-        
         border-right: none;
         border-bottom: 1px solid #334155;
         overflow-y: visible;
@@ -1327,6 +1346,66 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 768px) {
   .dataviz-panel {
     aspect-ratio: 1 / 1; /* Fix aspect ratio to 1:1 for desktop */
+  }
+}
+
+/* Mobile-only controls tweaks (scoped to .controls-panel) */
+@media (max-width: 768px) {
+  .controls-panel {
+    padding: 10px 12px;               /* tighter padding on mobile */
+    column-gap: 32px !important;                 /* diagnostic: larger gap to test override */
+    row-gap: 12px;                    /* more vertical rhythm */
+    align-items: start;
+  }
+
+  /* Make the main CTA span full width and have a little top spacing */
+  .controls-panel .primary-button {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 6px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Ensure sliders & selects use available space and a consistent min-width */
+  .controls-panel .control-select,
+  .controls-panel .control-slider {
+    width: 100%;
+    min-width: 120px;
+  }
+
+  /* Mobile-only: make dropdown text slightly larger for readability */
+  .controls-panel .control-select {
+    font-size: 0.7rem;
+  }
+
+  /* Right-column stage counter: center horizontally within its cell */
+  .controls-panel .ui-stage {
+    grid-column: 2 / 3;
+    justify-self: center;
+    align-self: center;
+    padding-top: 0; /* reduce unexpected spacing */
+  }
+
+  /* Keep inline stacks compact on mobile */
+  .controls-panel .ui-inline-stack {
+    gap: 0.25rem;
+    margin-top: 0;
+  }
+
+  /* Reduce label size slightly to save vertical space on mobile */
+  .controls-panel .ui-label {
+    font-size: 0.625rem;
+  }
+
+  /* Optional: keep legend hidden on mobile inside controls-panel */
+  .controls-panel .sim-legend {
+    display: none;
+  }
+
+  /* Hide the phase/status indicator entirely on mobile (scoped to controls-panel) */
+  .controls-panel .ui-phase {
+    display: none;
   }
 }
 

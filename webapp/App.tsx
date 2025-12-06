@@ -226,9 +226,9 @@ function App() {
         </section>
         <div className="simulation-frame">
             {/* Controls */}
-            <div className="controls-panel bg-slate-800 z-50 shadow-lg relative mono-text border-r border-slate-700/50">
+            <div className="controls-panel bg-slate-800 z-50 shadow-lg relative ui-text border-r border-slate-700/50">
               {/* Luck Factor (mobile left col item 1; desktop spacing) */}
-              <div className="md:space-y-6 md:block w-full md:w-auto">
+              <div className="md:space-y-6 md:block w-full md:w-auto md:mb-4">
                 <div className={`w-full transition-all duration-300 min-w-[100px]`}>
                     <div className="control-row">
                           <label className="ui-label">
@@ -253,7 +253,7 @@ function App() {
                 </div>
                 
               {/* Your Merit (mobile right col item 1) */}
-              <div className="md:space-y-6 md:block w-full md:w-auto">
+              <div className="md:space-y-6 md:block w-full md:w-auto  md:mb-6">
                 <div className={`w-full transition-all duration-300 min-w-[120px]`}>
                   <div className="control-row">
                     <label className="ui-label">
@@ -276,7 +276,7 @@ function App() {
               </div>
 
               {/* Next Stage (mobile left col item 2) */}
-                <div className="ui-inline-stack">
+                <div className="ui-inline-stack md:order-5">
                   <button
                     type="button"
                     className="primary-button"
@@ -287,17 +287,21 @@ function App() {
                   </button>
                 </div>
 
-              {/* Stage + Ready (mobile right col item 2) */}
-              <div className="ui-inline-stack">
-                <div className="ui-status-text">
-                  Stage: {Math.min(turnCount + 1, 5)} / 5
+              {/* Stage counter (keeps DOM order for mobile; moves above button on desktop) */}
+                <div className="ui-stage md:order-3 md:flex md:justify-center">
+                  <div className="ui-status-text ui-stage-text">
+                    Stage: {Math.min(turnCount + 1, 5)} / 5
+                  </div>
                 </div>
-                <div className={`ui-status-text transition-all duration-300 ${phaseMessage !== "Ready" ? "text-orange-500" : "text-slate-600"}`}>
-                  {phaseMessage}
-                </div>
-              </div>
 
-                <div className="sim-legend">
+              {/* Phase / Ready (stays after button on desktop) */}
+                <div className={`ui-inline-stack ui-phase md:order-4 md:mb-3`}>
+                  <div className={`ui-status-text transition-all duration-300 ${phaseMessage !== "Ready" ? "text-orange-500" : "text-slate-600"}`}>
+                      <span className={phaseMessage === "Ready" ? "phase-ready" : ""}>{phaseMessage}</span>
+                  </div>
+                </div>
+
+                <div className="sim-legend md:order-6">
                   <div className="sim-legend-list">
                     <div className="sim-legend-heading">Legend</div>
                     <div className="sim-legend-item">

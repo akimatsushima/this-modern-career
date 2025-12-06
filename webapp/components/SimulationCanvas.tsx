@@ -419,7 +419,7 @@ const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
              <div className="layer-label">
                 {/* Desktop: stacked label */}
                 <div className="hidden md:block">
-                  <span className="text-white block mb-1 text-xs">{layer.name}</span>
+                  <span className="text-white block mb-1 text-s">{layer.name}</span>
                   <span className="text-xs">
                       <span className="text-blue-400">Peers: {peerCounts[layer.id] || 0}</span>
                       <span className="text-slate-500"> / {layer.capacity}</span>
